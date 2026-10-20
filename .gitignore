@@ -1,0 +1,12 @@
+node_modules/
+.vitepress/cache/
+.vitepress/dist/
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+
+# LaTeX sources for the manual, cloned separately.
+# The site serves the built copy at public/ENCS4101-Manual.pdf.
+embedded_systems_lab/
