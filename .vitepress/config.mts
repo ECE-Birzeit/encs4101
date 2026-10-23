@@ -24,7 +24,6 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Setup', link: '/setup' },
       { text: 'Experiments', link: '/experiments/', activeMatch: '/experiments/' },
     ],
 
