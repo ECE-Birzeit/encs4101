@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://encs4101.birzeit.me/sitemap.xml
