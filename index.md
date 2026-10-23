@@ -21,7 +21,7 @@ hero:
 features:
   - icon:
       src: /icons/chip.svg
-      alt: Microcontroller
+      alt: STMicroelectronics
       width: 28
       height: 28
       wrap: true
@@ -29,7 +29,7 @@ features:
     details: Configure clocks, GPIOs and interrupts with STM32CubeIDE and the HAL library, then drop below it in the final lab and drive the peripheral registers directly.
   - icon:
       src: /icons/signal.svg
-      alt: Signal
+      alt: Timer
       width: 28
       height: 28
       wrap: true
@@ -37,7 +37,7 @@ features:
     details: Generate precise timing with the hardware timers, then use it to read an encoder and to drive DC and stepper motors through real driver ICs.
   - icon:
       src: /icons/bus.svg
-      alt: Serial bus
+      alt: Cable
       width: 28
       height: 28
       wrap: true
