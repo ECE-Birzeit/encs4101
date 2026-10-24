@@ -119,7 +119,7 @@ export default defineConfig({
 
     footer: {
       message: 'ENCS4101 · Embedded Systems Laboratory',
-      copyright: 'Developed by Mohammad Abu-Shelbaia',
+      copyright: 'Developed by <a href="https://mabushelbaia.com" target="_blank">Mohammad Abu-Shelbaia</a>',
     },
   },
 })
