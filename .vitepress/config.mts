@@ -18,8 +18,6 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#0369a1' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'ECE Lab Manuals · Birzeit University' }],
-    ['meta', { property: 'og:title', content: 'ENCS4101 Embedded Systems Laboratory' }],
-    ['meta', { property: 'og:description', content: 'Step-by-step STM32 lab manual (CubeIDE, HAL) for ENCS4101 at Birzeit University.' }],
     ['meta', { property: 'og:image', content: 'https://encs4101.birzeit.me/og.png' }],
     ['meta', { property: 'og:image:width', content: '1200' }],
     ['meta', { property: 'og:image:height', content: '630' }],
@@ -36,6 +34,17 @@ export default defineConfig({
   ],
 
   sitemap: { hostname: 'https://encs4101.birzeit.me/' },
+
+  // Link previews: per-page title, the page's (or site's) description, and canonical URL.
+  transformHead({ pageData, siteData }) {
+    const page = pageData.frontmatter.layout === 'home' ? '' : pageData.title
+    const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
+    return [
+      ['meta', { property: 'og:title', content: page ? `${page} · ENCS4101` : 'ENCS4101 Embedded Systems Laboratory' }],
+      ['meta', { property: 'og:description', content: pageData.frontmatter.description || pageData.description || siteData.description }],
+      ['meta', { property: 'og:url', content: `https://encs4101.birzeit.me/${path}` }],
+    ]
+  },
 
   themeConfig: {
     logo: '/favicon.svg',
