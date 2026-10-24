@@ -1,45 +1,49 @@
-# ENCS4101 Embedded Systems Lab
+<a href="https://encs4101.birzeit.me"><img src="public/og.png" alt="ENCS4101 Embedded Systems Laboratory" width="100%"></a>
 
-Student site for the ENCS4101 Embedded Systems Laboratory (STM32, C) at Birzeit University, built with [VitePress](https://vitepress.dev).
+# ENCS4101 · Embedded Systems Laboratory
 
-## Development
+Step-by-step lab manual for ENCS4101 at Birzeit University: STM32 with STM32CubeIDE and the HAL library, from GPIO and interrupts to timers, PWM, motors, ADC, I²C and UART.
 
-```sh
-npm install
-npm run dev       # dev server with hot reload at http://localhost:5173
-```
+**[Open the manual](https://encs4101.birzeit.me)** · [PDF](https://encs4101.birzeit.me/ENCS4101-Manual.pdf) · [Setup guide](https://encs4101.birzeit.me/setup) · [All labs](https://birzeit.me)
 
-## Build
+## Run it locally
 
-```sh
-npm run build     # outputs to .vitepress/dist (fails on dead links)
-npm run preview   # serve the built site locally
-```
-
-To build for a sub-path (e.g. a GitHub project site at `/<repo>/`):
+Requires [Node.js](https://nodejs.org) 24 and npm.
 
 ```sh
-BASE_PATH=/encs4101/ npm run build
+git clone https://github.com/ECE-Birzeit/encs4101.git
+cd encs4101
+npm ci
+npm run dev        # http://localhost:5173, reloads as you edit
 ```
 
-## Deploying
+```sh
+npm run build      # outputs to .vitepress/dist, fails on dead links
+npm run preview    # serve the built site
+```
 
-`.github/workflows/deploy.yml` builds and deploys to GitHub Pages on every push to `main`. In the repository settings, set **Pages → Source** to **GitHub Actions**. The workflow sets `BASE_PATH` from the Pages configuration, so it works both as a project site and with a custom domain.
-
-## Layout
+## Project layout
 
 | Path | Contents |
-| --- | --- |
-| `index.md` | Home page (hero + features) |
+|:--|:--|
+| `index.md` | Home page |
 | `setup.md` | One-time STM32CubeIDE setup, shared by every experiment |
 | `experiments/` | One page per experiment, plus the index table |
-| `snippets/exp<N>/` | C source included into the pages with `<<< @/snippets/...` |
+| `snippets/exp<N>/` | C source included into pages with `<<< @/snippets/...` |
 | `public/images/exp<N>/` | Figures, exported from the LaTeX manual's `media/` |
-| `public/ENCS4101-Manual.pdf` | Built copy of the original manual |
+| `public/ENCS4101-Manual.pdf` | Built copy of the department manual |
+| `.vitepress/config.mts` | Site config: nav, sidebar, search, link previews |
 
-### The manual sources
+The LaTeX sources for the department manual live in a separate repository, cloned into `embedded_systems_lab/` (gitignored). Figures are copied from its `media/experiment<N>_figures/` into `public/images/exp<N>/` with kebab-case names, and `document.pdf` is copied to `public/ENCS4101-Manual.pdf`.
 
-The LaTeX sources for the department manual live in a separate repository, cloned
-into `embedded_systems_lab/` (gitignored here). Figures are copied out of its
-`media/experiment<N>_figures/` into `public/images/exp<N>/` with kebab-case names,
-and `document.pdf` is copied to `public/ENCS4101-Manual.pdf`.
+## Contributing
+
+Found a mistake? Click **Edit this page on GitHub** at the bottom of any page, or [open an issue](https://github.com/ECE-Birzeit/encs4101/issues/new/choose). The [contributing guide](https://github.com/ECE-Birzeit/.github/blob/main/CONTRIBUTING.md) covers writing style and pull requests.
+
+## Deployment
+
+`.github/workflows/deploy.yml` builds and deploys to GitHub Pages on every push to `main`, so merged changes are live within a couple of minutes at [encs4101.birzeit.me](https://encs4101.birzeit.me).
+
+---
+
+<sub>Part of [ECE Lab Manuals](https://birzeit.me) · Maintained by [Mohammad Abu-Shelbaia](https://github.com/mabushelbaia)</sub>

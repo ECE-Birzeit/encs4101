@@ -108,6 +108,11 @@ export default defineConfig({
 
     search: { provider: 'local' },
 
+    editLink: {
+      pattern: 'https://github.com/ECE-Birzeit/encs4101/edit/main/:path',
+      text: 'Edit this page on GitHub',
+    },
+
     socialLinks: [
       { icon: 'github', link: 'https://github.com/ECE-Birzeit/encs4101' },
     ],
