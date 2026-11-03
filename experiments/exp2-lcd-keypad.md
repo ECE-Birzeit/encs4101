@@ -205,15 +205,31 @@ Power the adapter board from **5 V** — the HD44780's contrast circuit will not
 
    Check that CubeMX assigned I2C1_SCL to PB6 and I2C1_SDA to PB7 to match your wiring. If it picked PB8/PB9, click the pin in the pinout view and reassign it.
 
-5. **Generate the code.**
+5. **Stop CubeMX generating `SysTick_Handler`.** Go to **System Core → NVIC → Code generation** and untick **Generate IRQ handler** on the **Time base: System tick timer** row. You will write this handler yourself in [Step 4](#step-4-scan-the-keypad-from-systick).
+
+6. **Generate the code.**
 
 ## Step 3: Add the libraries
 
-Copy (or drag and drop) the library files from [this link](https://birzeit0-my.sharepoint.com/:f:/g/personal/sadaana_birzeit_edu/IgD0AYj6p8WIRKFX6bI_fuSPAdx99UmkQJnhLdmDA1H4NXI?e=ucMcSE) into the locations shown:
+The two libraries are below. Download them — [`LCD16x2_I2C.h`](/code/exp2/LCD16x2_I2C.h){target="_self" download=""}, [`LCD16x2_I2C.c`](/code/exp2/LCD16x2_I2C.c){target="_self" download=""}, [`Keypad4x4.h`](/code/exp2/Keypad4x4.h){target="_self" download=""}, [`Keypad4x4.c`](/code/exp2/Keypad4x4.c){target="_self" download=""} — or copy them from the tabs:
+
+::: code-group
+
+<<< @/public/code/exp2/LCD16x2_I2C.h{c}
+
+<<< @/public/code/exp2/LCD16x2_I2C.c{c}
+
+<<< @/public/code/exp2/Keypad4x4.h{c}
+
+<<< @/public/code/exp2/Keypad4x4.c{c}
+
+:::
+
+Put them in the locations shown:
 
 ![LCD and keypad libraries](/images/exp2/lcd-lib.jpg)
 
-The `.h` files go in `Core/Inc/` and the `.c` files in `Core/Src/`, so the build picks them up automatically. Then include them in `main.c`, along with the globals and macros this program needs:
+The `.h` files go in `Core/Inc/` and the `.c` files in `Core/Src/`, so the build picks them up automatically. The keypad library finds its pins through the CubeMX user labels from [Step 2](#step-2-configure-the-peripherals), and the LCD library uses the `hi2c1` handle that CubeMX generates. Then include them in `main.c`, along with the globals and macros this program needs:
 
 <<< @/snippets/exp2/globals.c{c}
 
@@ -231,21 +247,23 @@ Three things to notice:
 
 1. **`HAL_IncTick()` stays first.** The handler you are overriding is HAL's own, and that call is what makes `HAL_GetTick()` and `HAL_Delay()` work. Remove it and the whole HAL timebase stops — including the debouncing below it.
 2. **One row per interrupt, not all four.** `row` is `static`, so it remembers its place between calls. A full scan of the keypad therefore takes 4 × 5 = 20 ms, fast enough that no human notices.
-3. **Same debouncing as [Experiment 1](./exp1-gpio#step-3-handle-the-interrupt).** Compare `HAL_GetTick()` against the last accepted press and ignore anything within `debounceTime`.
+3. **Same debouncing as [Experiment 1](./exp1-gpio#step-3-handle-the-interrupt).** Compare `HAL_GetTick()` against the last accepted press and ignore anything within `debounceTime`. There is one difference from Experiment 1: `previousTick` is updated on **every** scan that sees a key down, not only on an accepted press. The scanner keeps seeing a held key as down, so this refresh stops it from counting again. A key is accepted only after `debounceTime` with no key down.
 
-::: warning CubeMX also generates a SysTick_Handler
-`stm32f4xx_it.c` already contains a `SysTick_Handler` with `HAL_IncTick()` in it. Put your version there, inside its `USER CODE` markers — do not add a second definition in `main.c`, or the linker will fail with *multiple definition of `SysTick_Handler`*.
+::: warning Only one SysTick_Handler
+By default CubeMX puts a `SysTick_Handler` in `stm32f4xx_it.c`. With that one there too, the linker fails with *multiple definition of `SysTick_Handler`*. Untick **Generate IRQ handler** as in [Step 2](#step-2-configure-the-peripherals), and regenerate the code. Do not just delete the generated handler or mark it `__weak`: it sits outside the `USER CODE` markers, so CubeMX brings it back the next time you generate code.
+
+Defining the handler in `main.c` also keeps it next to `key`, `pressFlag` and the tick variables it uses. In `stm32f4xx_it.c` they would all need `extern` declarations.
 :::
 
 ## Step 5: Write the PIN check
 
-The first function asks the user to enter a password on the keypad and checks whether it is correct. The second displays a pressed key on the LCD.
+The first function takes the PIN one key at a time and checks it once all four digits are in. The second displays a pressed key on the LCD.
 
 <<< @/snippets/exp2/password_check.c{c}
 
-`password_check` keeps asking for a 4-digit password. Each time a key is pressed it shows a `*` on the LCD. Once four keys are entered, it compares them with the correct password: if they match it prints **"Correct PIN"** and returns, and otherwise it prints **"Try again"** and restarts the input.
+`password_check` handles **one key per call** and returns straight away; it never waits for the keypad itself. Each call stores the key at `input[count]`, shows a `*` on the LCD and moves `count` on by one. Once `count` reaches `PASSWORD_LENGTH`, it compares the digits with the correct password: if they match it prints **"Correct PIN"** and returns 1, and otherwise it prints **"Try again"** and returns 0. Either way `count` goes back to 0, ready for the next attempt.
 
-Note that the global `pressFlag` becomes 1 when the keypad scanner detects a key press — that is the only way this function learns about the keypad.
+`count` and `input` are `static`, so they keep their values between calls. That is how the function remembers the digits entered so far.
 
 ::: details Why `strncmp` and not `==`
 `input` is a `char[4]`, i.e. a pointer when passed around, so `input == PASSWORD` would compare *addresses* and always be false. `strncmp(a, b, n)` compares the first `n` characters and returns 0 when they match. It is `strncmp` rather than `strcmp` because `input` holds exactly 4 characters with **no terminating `\0`** — `strcmp` would read past the end of the array.
@@ -257,12 +275,14 @@ In `main.c`:
 
 - Include all the required libraries.
 - Define the variables from [Step 3](#step-3-add-the-libraries).
-- Add `password_check` and `handle_keypress` with their prototypes.
+- Add `password_check` and `handle_keypress`, with their prototypes from [Step 3](#step-3-add-the-libraries).
 - Override `SysTick_Handler` with the code from [Step 4](#step-4-scan-the-keypad-from-systick).
-- In `main`, before the `while` loop, initialise the LCD and check the password.
-- In the loop, check whether a key press has occurred (via `pressFlag`); if so print the character to the LCD and reset the flag.
+- In `main`, before the `while` loop, initialise the LCD and show the prompt.
+- In the loop, check whether a key press has occurred (via `pressFlag`). While the system is locked, pass the key to `password_check`. Once it is unlocked, print the key with `handle_keypress`. Then reset the flag.
 
 <<< @/snippets/exp2/main_loop.c{c}
+
+The program has **one** `while (1)` loop. `unlocked` records which of the two states the system is in, and every key press goes to the right function for that state. This is a small **state machine**.
 
 Build the project and flash it to your STM32.
 
@@ -275,8 +295,8 @@ Build the project and flash it to your STM32.
 - This keeps the system responsive and avoids delays caused by long ISRs.
 - Keypad buttons suffer from bouncing, where one press generates multiple signals, so debouncing logic is included. For more detail, see [Experiment 1](./exp1-gpio#switch-bouncing).
 
-::: tip Where this design is still imperfect
-`password_check()` contains its own `while (1)` loop, so it *blocks* until the PIN is right — the opposite of the non-blocking principle above. It works because nothing else has to happen during unlocking. Once your system also has to blink an LED or drive a motor, this becomes a state machine in the main loop instead. Keep that in mind from [Experiment 4](./) onward.
+::: tip Why the PIN check has no loop of its own
+`password_check()` could wait for four keys in its own `while (1)` loop, but then it would *block*: nothing else in `main` could run until the PIN was right. Because it handles one key and returns, the main loop stays free. If your system also has to blink an LED or drive a motor, that code goes in the same loop and keeps running while the user types. This pattern comes back from [Experiment 4](./) onward.
 :::
 
 ## Common problems
@@ -286,7 +306,7 @@ Build the project and flash it to your STM32.
 | Backlight on, screen blank | Contrast. Turn the trimmer on the adapter board until the blocks appear. Then check the LCD is on 5 V, not 3.3 V. |
 | Nothing at all on the LCD | Wrong I²C address. Try `0x4E`, then `0x27`, then scan the bus (below). Check SDA/SCL are not swapped. |
 | First row of blocks, no text | `LCD_init()` was called before the I²C peripheral was initialised. It must come after `MX_I2C1_Init()`. |
-| Build fails: *multiple definition of `SysTick_Handler`* | You defined it in `main.c` as well as `stm32f4xx_it.c`. Keep only the one in `stm32f4xx_it.c`. |
+| Build fails: *multiple definition of `SysTick_Handler`* | CubeMX still generates one in `stm32f4xx_it.c`. Untick **NVIC → Code generation → Generate IRQ handler** for the system tick timer and regenerate the code. |
 | Board hangs after `LCD_init()` | The I²C transfer is timing out because no slave is acknowledging — i.e. an address or wiring problem. The HAL call blocks until timeout. |
 | One key press registers several times | `debounceTime` too small, or you reset `previousTick` in the wrong place. |
 | Keys in the wrong positions | Rows and columns are swapped, or the user labels do not match `ROW1`–`ROW4` / `COL1`–`COL4`. |

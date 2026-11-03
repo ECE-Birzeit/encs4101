@@ -1,40 +1,36 @@
 /* USER CODE BEGIN 4 */
-void password_check(void)
+/* Takes one key of the PIN. Returns 1 once the correct PIN is complete. */
+uint8_t password_check(uint8_t key)
 {
-    int  pos = -1;
-    char input[PASSWORD_LENGTH];
+    static int  count = 0;              /* digits entered so far */
+    static char input[PASSWORD_LENGTH];
 
-    while (1)
+    input[count] = key;
+
+    LCD_setCursor(1, count);
+    LCD_displayText("*");               /* never echo the PIN itself */
+
+    count++;
+
+    if (count < PASSWORD_LENGTH)
     {
-        if (pressFlag == 1)
-        {
-            pos++;
-            input[pos] = key;
-
-            LCD_setCursor(1, pos);
-            LCD_displayText("*");       /* never echo the PIN itself */
-
-            pressFlag = 0;
-        }
-
-        if (pos >= PASSWORD_LENGTH)
-        {
-            if (strncmp(input, PASSWORD, PASSWORD_LENGTH) == 0)
-            {
-                LCD_clear();
-                LCD_setCursor(0, 0);
-                LCD_displayText("Correct PIN");
-                break;                  /* unlocked: carry on */
-            }
-            else
-            {
-                LCD_clear();
-                LCD_setCursor(0, 0);
-                LCD_displayText("Try again: ");
-                pos = -1;               /* start the entry over */
-            }
-        }
+        return 0;                       /* wait for the next digit */
     }
+
+    count = 0;                          /* the next attempt starts over */
+
+    if (strncmp(input, PASSWORD, PASSWORD_LENGTH) == 0)
+    {
+        LCD_clear();
+        LCD_setCursor(0, 0);
+        LCD_displayText("Correct PIN");
+        return 1;                       /* unlocked */
+    }
+
+    LCD_clear();
+    LCD_setCursor(0, 0);
+    LCD_displayText("Try again: ");
+    return 0;
 }
 
 void handle_keypress(uint8_t key)

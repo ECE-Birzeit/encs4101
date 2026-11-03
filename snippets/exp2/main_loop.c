@@ -6,12 +6,12 @@ int main(void)
     MX_I2C1_Init();
 
     /* USER CODE BEGIN 2 */
+    uint8_t unlocked = 0;      /* 0 until the correct PIN is entered */
+
     LCD_init();
     LCD_clear();
     LCD_setCursor(0, 0);
     LCD_displayText("Enter Password!");
-
-    password_check();          /* blocks until the PIN is correct */
     /* USER CODE END 2 */
 
     /* USER CODE BEGIN WHILE */
@@ -19,7 +19,15 @@ int main(void)
     {
         if (pressFlag == 1)
         {
-            handle_keypress(key);
+            if (!unlocked)
+            {
+                unlocked = password_check(key);   /* still locked: the key is a PIN digit */
+            }
+            else
+            {
+                handle_keypress(key);             /* unlocked: show the key */
+            }
+
             pressFlag = 0;
         }
     }
