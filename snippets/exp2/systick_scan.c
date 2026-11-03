@@ -26,7 +26,7 @@ void SysTick_Handler(void)
                 pressFlag = 1;          /* tell main() there is a key */
             }
 
-            previousTick = currentTick;
+            previousTick = currentTick; /* last time any key was seen down */
         }
 
         row = (row + 1) % 4;   /* next row on the next scan */

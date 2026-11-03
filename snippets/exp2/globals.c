@@ -19,3 +19,8 @@ volatile uint32_t previousTick = 0;
 
 const uint32_t debounceTime = 150;    /* ms */
 /* USER CODE END PV */
+
+/* USER CODE BEGIN PFP */
+uint8_t password_check(uint8_t key);
+void    handle_keypress(uint8_t key);
+/* USER CODE END PFP */
