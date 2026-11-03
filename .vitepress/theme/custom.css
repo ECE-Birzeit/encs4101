@@ -40,6 +40,16 @@
   margin-top: auto;
 }
 
+/* VitePress leaves 6rem under the sidebar and 1.5rem under the last group,
+   which floats the bottom groups off the edge. Sit them on it instead. */
+.Layout .VPSidebar {
+  padding-bottom: 1rem;
+}
+
+.VPSidebar .nav > .group:last-child .VPSidebarItem.level-0 {
+  padding-bottom: 0;
+}
+
 /* Schematics and CubeMX screenshots are the point of these pages, so give them
    a frame and a light backdrop that survives dark mode. */
 .vp-doc img {
