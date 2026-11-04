@@ -15,6 +15,8 @@ export default withPwa(defineConfig({
   lastUpdated: true,
 
   head: [
+    // .ico first for browsers and tools without SVG favicon support; the SVG wins where it is supported.
+    ['link', { rel: 'icon', href: `${base}favicon.ico`, sizes: 'any' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
     ['link', { rel: 'apple-touch-icon', href: `${base}apple-touch-icon.png` }],
     ['meta', { name: 'theme-color', content: '#0369a1' }],
