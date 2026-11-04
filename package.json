@@ -5,10 +5,18 @@
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
-    "preview": "vitepress preview"
+    "preview": "vitepress preview",
+    "smoke-test:pwa": "node scripts/smoke-test-pwa.mjs"
   },
   "devDependencies": {
     "vitepress": "^2.0.0-alpha.20",
-    "vue": "^3.5.44"
+    "vue": "^3.5.44",
+    "@vite-pwa/vitepress": "^1.1.0",
+    "vite-plugin-pwa": "^2.0.0"
+  },
+  "overrides": {
+    "@vite-pwa/vitepress": {
+      "vite-plugin-pwa": "$vite-plugin-pwa"
+    }
   }
 }
