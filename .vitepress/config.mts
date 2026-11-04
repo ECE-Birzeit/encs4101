@@ -70,6 +70,7 @@ export default defineConfig({
           items: [
             { text: '1. GPIO, Debouncing and Interrupts', link: '/experiments/exp1-gpio' },
             { text: '2. LCD, I²C and Keypad', link: '/experiments/exp2-lcd-keypad' },
+            { text: '3. ADC and Analog Sensors', link: '/experiments/exp3-adc' },
           ],
         },
         {
@@ -99,6 +100,7 @@ export default defineConfig({
             { text: 'Arm Cortex-M4 Generic User Guide', link: 'https://developer.arm.com/documentation/dui0553/latest/' },
             { text: 'HD44780 LCD Datasheet', link: 'https://www.sparkfun.com/datasheets/LCD/HD44780.pdf' },
             { text: 'PCF8574 Datasheet', link: 'https://www.ti.com/lit/ds/symlink/pcf8574.pdf' },
+            { text: 'AN4073 — STM32F4 ADC Accuracy', link: 'https://www.st.com/resource/en/application_note/an4073-how-to-improve-adc-accuracy-when-using-stm32f2xx-and-stm32f4xx-microcontrollers-stmicroelectronics.pdf' },
           ],
         },
       ],
