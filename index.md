@@ -5,6 +5,9 @@ hero:
   name: ENCS4101
   text: Embedded Systems Laboratory
   tagline: Department of Electrical & Computer Engineering · Birzeit University
+  image:
+    src: /favicon.svg
+    alt: ENCS4101 course icon
   actions:
     - theme: brand
       text: Explore Experiments
