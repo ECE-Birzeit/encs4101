@@ -17,6 +17,7 @@
   "overrides": {
     "@vite-pwa/vitepress": {
       "vite-plugin-pwa": "$vite-plugin-pwa"
-    }
+    },
+    "glob": "^14.0.3"
   }
 }
