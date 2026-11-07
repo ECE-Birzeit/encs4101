@@ -1,5 +1,9 @@
 import { defineConfig } from 'vitepress'
 import { withPwa } from '@vite-pwa/vitepress'
+import { linkPreviews } from './og.mts'
+
+// Per-experiment link previews, drawn at build time (see og.mts)
+const og = linkPreviews({ code: 'ENCS4101', name: 'Embedded Systems Laboratory', host: 'encs4101.birzeit.me', accent: '#38bdf8', platform: 'STM32 · CubeIDE · HAL' })
 
 // BASE_PATH is set by the GitHub Pages workflow ("/repo-name/" or "/" with a custom domain).
 const base = process.env.BASE_PATH || '/'
@@ -22,10 +26,7 @@ export default withPwa(defineConfig({
     ['meta', { name: 'theme-color', content: '#0369a1' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'ECE Labs · Birzeit University' }],
-    ['meta', { property: 'og:image', content: 'https://encs4101.birzeit.me/og.png' }],
-    ['meta', { property: 'og:image:width', content: '1200' }],
-    ['meta', { property: 'og:image:height', content: '630' }],
-    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ...og.head,
     ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-K834Q72PP9' }],
     [
       'script',
@@ -39,11 +40,14 @@ export default withPwa(defineConfig({
 
   sitemap: { hostname: 'https://encs4101.birzeit.me/' },
 
+  buildEnd: og.buildEnd,
+
   // Link previews: per-page title, the page's (or site's) description, and canonical URL.
   transformHead({ pageData, siteData }) {
     const page = pageData.frontmatter.layout === 'home' ? '' : pageData.title
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
     return [
+      ...og.transformHead({ pageData } as any),
       ['meta', { property: 'og:title', content: page ? `${page} · ENCS4101` : 'ENCS4101 Embedded Systems Laboratory' }],
       ['meta', { property: 'og:description', content: pageData.frontmatter.description || pageData.description || siteData.description }],
       ['meta', { property: 'og:url', content: `https://encs4101.birzeit.me/${path}` }],
@@ -151,6 +155,8 @@ export default withPwa(defineConfig({
     workbox: {
       // The manual PDF is left out: it is too large to precache, and the guides do not need it offline.
       globPatterns: ['**/*.{css,js,html,svg,png,jpg,jpeg,webp,ico,txt,woff2}'],
+      // Link-preview images are for chat apps and search engines, not for reading offline
+      globIgnores: ['og/**'],
       maximumFileSizeToCacheInBytes: 5000000,
     },
     experimental: {
