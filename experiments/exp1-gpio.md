@@ -1,6 +1,7 @@
 ---
 title: "GPIO, Switch Debouncing and Interrupts"
 short: "GPIO, Debouncing and Interrupts"
+manual: "/ENCS4101-Manual.pdf#nameddest=section.1"
 ---
 # GPIO, Switch Debouncing and Interrupts
 

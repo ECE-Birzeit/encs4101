@@ -1,6 +1,7 @@
 ---
 title: "ADC and Analog Sensor Interfacing"
 short: "ADC and Analog Sensors"
+manual: "/ENCS4101-Manual.pdf#nameddest=section.3"
 ---
 # ADC and Analog Sensor Interfacing
 

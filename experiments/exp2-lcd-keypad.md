@@ -1,5 +1,6 @@
 ---
 title: "LCD, I²C and Keypad"
+manual: "/ENCS4101-Manual.pdf#nameddest=section.2"
 ---
 # LCD, I²C and Keypad
 
