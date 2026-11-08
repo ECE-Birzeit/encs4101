@@ -1,3 +1,7 @@
+---
+title: "GPIO, Switch Debouncing and Interrupts"
+short: "GPIO, Debouncing and Interrupts"
+---
 # GPIO, Switch Debouncing and Interrupts
 
 In this lab you configure STM32 pins as inputs and outputs from the Device Configuration Tool, drive four LEDs as a binary counter, and increment that counter from a push button. The button is read with an **external interrupt** rather than polled, and you add **software debouncing** so one physical press counts exactly once.
@@ -10,7 +14,7 @@ In this lab you configure STM32 pins as inputs and outputs from the Device Confi
 - Implement software debouncing so a mechanical button press is detected reliably.
 
 ::: tip Before the lab
-Finish the [Setup Guide](/setup) at home. Installing STM32CubeIDE and letting it download the F4 MCU package takes far too long to do in the lab.
+Finish the [Setup Guide](/setup/) at home. Installing STM32CubeIDE and letting it download the F4 MCU package takes far too long to do in the lab.
 :::
 
 ## Pre-Lab
@@ -165,7 +169,7 @@ Build the circuit below.
 - **STM32F411 Nucleo:** PA2, PA3, PC14, PC15, PA13, PA14.
 - **STM32F407 Discovery:** PA13, PA14.
 
-See [Setup Guide → Know your board](/setup#_2-know-your-board) for why.
+See [Setup Guide → Know your board](/setup/#_2-know-your-board) for why.
 :::
 
 ::: tip Pick your four LED pins on the same port
@@ -174,7 +178,7 @@ If bits 0–3 are all on, say, `GPIOD`, you can later replace the four `HAL_GPIO
 
 ## Step 2: Configure the peripherals
 
-1. **Create the project.** Follow [Setup Guide → Create a lab project](/setup#_3-create-a-lab-project) with the name `Exp1_Counter`. Make sure **Targeted Project Type** is **STM32Cube**.
+1. **Create the project.** Follow [Setup Guide → Create a lab project](/setup/#_3-create-a-lab-project) with the name `Exp1_Counter`. Make sure **Targeted Project Type** is **STM32Cube**.
 
 2. **RCC mode and configuration.** Select the clock source from the external crystal by enabling **HSE** in the RCC drop-down list.
 
@@ -268,7 +272,7 @@ Press the push button and observe the LED behaviour. Then work through the follo
 
 ### Explore in debug mode
 
-Start a **Debug** session ([Setup Guide → Build, flash and debug](/setup#_4-build-flash-and-debug)) and:
+Start a **Debug** session ([Setup Guide → Build, flash and debug](/setup/#_4-build-flash-and-debug)) and:
 
 1. Add `buttonPressCount` to **Live Expressions** and watch it change as you press the button.
 2. Set a breakpoint inside the EXTI callback and observe what happens when you press the button.
@@ -302,7 +306,7 @@ Change `debounceTime` to 0, 50, 100, 200 and 300 ms, and observe `buttonPressCou
 | Board hangs on the first press | You called `HAL_Delay()` inside the callback. Debounce by comparing ticks instead. |
 | `buttonPressCount` shows `<optimized out>` | The variable is not `volatile`, or optimisation is above `-Og`. |
 | LEDs all light dimly | Missing series resistors, or the pins are open-drain. They must be push-pull. |
-| Debugger cannot connect after flashing | You assigned PA13 or PA14. See [Setup Guide → Troubleshooting](/setup#troubleshooting). |
+| Debugger cannot connect after flashing | You assigned PA13 or PA14. See [Setup Guide → Troubleshooting](/setup/#troubleshooting). |
 
 ## Task
 

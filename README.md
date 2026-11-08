@@ -27,7 +27,7 @@ npm run preview    # serve the built site
 | Path | Contents |
 |:--|:--|
 | `index.md` | Home page |
-| `setup.md` | One-time STM32CubeIDE setup, shared by every experiment |
+| `setup/index.md` | One-time STM32CubeIDE setup, shared by every experiment |
 | `experiments/` | One page per experiment, plus the index table |
 | `snippets/exp<N>/` | C source included into pages with `<<< @/snippets/...` |
 | `public/images/exp<N>/` | Figures, exported from the LaTeX manual's `media/` |

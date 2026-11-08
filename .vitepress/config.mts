@@ -1,6 +1,10 @@
 import { defineConfig } from 'vitepress'
 import { withPwa } from '@vite-pwa/vitepress'
 import { linkPreviews } from './og.mts'
+import { sidebar } from './lab.mts'
+import { fileURLToPath } from 'node:url'
+
+const srcDir = fileURLToPath(new URL('..', import.meta.url))
 
 // Per-experiment link previews, drawn at build time (see og.mts)
 const og = linkPreviews({ code: 'ENCS4101', name: 'Embedded Systems Laboratory', host: 'encs4101.birzeit.me', accent: '#38bdf8', platform: 'STM32 · CubeIDE · HAL' })
@@ -64,28 +68,9 @@ export default withPwa(defineConfig({
       { text: 'All labs', link: 'https://birzeit.me/' },
     ],
 
-    sidebar: {
-      '/': [
-        {
-          text: 'Getting Started',
-          items: [
-            { text: 'Setup Guide', link: '/setup' },
-            { text: 'All Experiments', link: '/experiments/' },
-          ],
-        },
-        {
-          text: 'Experiments',
-          items: [
-            { text: '1. GPIO, Debouncing and Interrupts', link: '/experiments/exp1-gpio' },
-            { text: '2. LCD, I²C and Keypad', link: '/experiments/exp2-lcd-keypad' },
-            { text: '3. ADC and Analog Sensors', link: '/experiments/exp3-adc' },
-          ],
-        },
-        {
-          // Downloads + Documentation are pushed to the sidebar bottom in custom.css.
-          text: 'Downloads',
-          collapsed: true,
-          items: [
+    // Built from the pages (see lab.mts): adding an experiment or a setup page is the only step
+    sidebar: sidebar(srcDir, {
+      downloads: [
             { text: 'STM32CubeIDE', link: 'https://www.st.com/en/development-tools/stm32cubeide.html' },
             { text: 'STM32CubeMX', link: 'https://www.st.com/en/development-tools/stm32cubemx.html' },
             { text: 'STM32CubeProgrammer', link: 'https://www.st.com/en/development-tools/stm32cubeprog.html' },
@@ -93,12 +78,8 @@ export default withPwa(defineConfig({
             // `base` by hand: a sidebar item with target '_blank' counts as external,
             // so VitePress does not prefix it for us.
             { text: 'Full Lab Manual (PDF)', link: `${base}ENCS4101-Manual.pdf`, target: '_blank' },
-          ],
-        },
-        {
-          text: 'Documentation',
-          collapsed: true,
-          items: [
+      ],
+      docs: [
             { text: 'RM0090 — F407 Reference Manual', link: 'https://www.st.com/resource/en/reference_manual/rm0090-stm32f405415-stm32f407417-stm32f427437-and-stm32f429439-advanced-armbased-32bit-mcus-stmicroelectronics.pdf' },
             { text: 'RM0383 — F411 Reference Manual', link: 'https://www.st.com/resource/en/reference_manual/rm0383-stm32f411xce-advanced-armbased-32bit-mcus-stmicroelectronics.pdf' },
             { text: 'UM1725 — STM32F4 HAL Guide', link: 'https://www.st.com/resource/en/user_manual/um1725-description-of-stm32f4-hal-and-lowlayer-drivers-stmicroelectronics.pdf' },
@@ -109,10 +90,8 @@ export default withPwa(defineConfig({
             { text: 'HD44780 LCD Datasheet', link: 'https://www.sparkfun.com/datasheets/LCD/HD44780.pdf' },
             { text: 'PCF8574 Datasheet', link: 'https://www.ti.com/lit/ds/symlink/pcf8574.pdf' },
             { text: 'AN4073 — STM32F4 ADC Accuracy', link: 'https://www.st.com/resource/en/application_note/an4073-how-to-improve-adc-accuracy-when-using-stm32f2xx-and-stm32f4xx-microcontrollers-stmicroelectronics.pdf' },
-          ],
-        },
       ],
-    },
+    }),
 
     outline: { level: [2, 3] },
 

@@ -1,3 +1,7 @@
+---
+title: "ADC and Analog Sensor Interfacing"
+short: "ADC and Analog Sensors"
+---
 # ADC and Analog Sensor Interfacing
 
 So far your board has only seen the world as 0 or 1. In this lab you use the STM32's **analog-to-digital converter (ADC)** to measure real voltages: a potentiometer and a light-dependent resistor (LDR). The readings are shown live on the I²C LCD from [Experiment 2](./exp2-lcd-keypad).
@@ -176,7 +180,7 @@ Feed the sensors from the board's **3.3 V** pin, not 5 V. A pin in analog mode i
 
 ## Step 2: Configure the peripherals
 
-1. **Create the project.** Follow [Setup Guide → Create a lab project](/setup#_3-create-a-lab-project) with the name `Exp3_ADC`, including the maximum-frequency clock configuration.
+1. **Create the project.** Follow [Setup Guide → Create a lab project](/setup/#_3-create-a-lab-project) with the name `Exp3_ADC`, including the maximum-frequency clock configuration.
 
 2. **Configure I²C for the LCD.** Enable **I2C1** in **Standard Mode** at **100 kHz** on PB6/PB7, as in [Experiment 2](./exp2-lcd-keypad#step-2-configure-the-peripherals).
 

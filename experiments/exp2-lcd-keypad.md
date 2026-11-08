@@ -1,3 +1,6 @@
+---
+title: "LCD, I²C and Keypad"
+---
 # LCD, I²C and Keypad
 
 In this lab you give your board a user interface. A 16×2 character LCD is driven over **I²C** through a PCF8574 port expander — two wires instead of ten — and a **4×4 matrix keypad** is scanned in the background from the `SysTick` interrupt. Together they become a PIN-code lock.
@@ -185,7 +188,7 @@ Power the adapter board from **5 V** — the HD44780's contrast circuit will not
 
 ## Step 2: Configure the peripherals
 
-1. **Create the project.** Follow [Setup Guide → Create a lab project](/setup#_3-create-a-lab-project) with the name `Exp2_Lock`.
+1. **Create the project.** Follow [Setup Guide → Create a lab project](/setup/#_3-create-a-lab-project) with the name `Exp2_Lock`.
 
 2. **Clock configuration.** Enable the external clock in the **RCC** tab and select the maximum clock frequency in the **Clock Configuration** window.
 
