@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { withPwa } from '@vite-pwa/vitepress'
 import { linkPreviews } from './og.mts'
-import { sidebar } from './lab.mts'
+import { experimentEdges, sidebar } from './lab.mts'
 import { fileURLToPath } from 'node:url'
 
 const srcDir = fileURLToPath(new URL('..', import.meta.url))
@@ -45,6 +45,9 @@ export default withPwa(defineConfig({
   sitemap: { hostname: 'https://encs4101.birzeit.me/' },
 
   buildEnd: og.buildEnd,
+
+  // No Previous page on the first experiment, no Next page on the last (see lab.mts)
+  transformPageData: experimentEdges(srcDir),
 
   // Link previews: per-page title, the page's (or site's) description, and canonical URL.
   transformHead({ pageData, siteData }) {
