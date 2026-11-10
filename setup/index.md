@@ -114,8 +114,8 @@ Code **inside** a pair survives regeneration. Code **outside** one is deleted th
 | Action | Button / shortcut | What it does |
 | --- | --- | --- |
 | **Build** | hammer icon, <kbd>Ctrl</kbd>+<kbd>B</kbd> | Compiles to `Debug/<project>.elf` |
-| **Run** | green ▶ | Flashes the board and runs it free |
-| **Debug** | green 🐞 | Flashes, halts at `main()`, opens the Debug perspective |
+| **Run** | green play button | Flashes the board and runs it free |
+| **Debug** | green bug icon | Flashes, halts at `main()`, opens the Debug perspective |
 
 The first **Run** or **Debug** opens a launch-configuration dialog. The defaults (ST-LINK, SWD, "Software system reset") are correct — click **OK**.
 
