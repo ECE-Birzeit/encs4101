@@ -7,7 +7,7 @@ Each guide is a step-by-step replacement for the matching chapter of the [depart
 | 1 | [GPIO, Switch Debouncing and Interrupts](./exp1-gpio) | GPIO input/output modes, push-pull vs open-drain, EXTI, NVIC, software debouncing with `HAL_GetTick()` |
 | 2 | [LCD, I2C and Keypad](./exp2-lcd-keypad) | HD44780 character LCD, PCF8574 I²C expander, 4×4 matrix keypad scanning from `SysTick_Handler` |
 | 3 | [ADC and Analog Sensor Interfacing](./exp3-adc) | ADC principles, resolution and sampling time, potentiometer and LDR, VDDA from VREFINT, showing readings on the LCD |
-| 4 | Timer Configuration and Output Compare | Timer clock tree, prescaler and period, update interrupts, output compare mode, generating a variable frequency |
+| 4 | [Timer Configuration and Output Compare](./exp4-timers) | Timer clock tree, prescaler and period, update interrupts, output compare mode, generating a variable frequency |
 | 5 | DC Motor Control and PWM | PWM generation, duty cycle and speed, the L298 H-bridge, direction control |
 | 6 | Rotary Encoder Interface | Incremental encoders, quadrature signals, the timer's encoder mode, computing position and speed |
 | 7 | Stepper Motor Control | Full-step and half-step sequences, the ULN2003 driver, position, speed and direction |
