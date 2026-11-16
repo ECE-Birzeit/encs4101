@@ -68,6 +68,7 @@ export default withPwa(defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Experiments', link: '/experiments/', activeMatch: '/experiments/' },
+      { text: 'Pinout', link: '/setup/pinout', activeMatch: '/setup/pinout' },
       { text: 'All labs', link: 'https://birzeit.me/' },
     ],
 

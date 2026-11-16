@@ -45,6 +45,8 @@ The two boards used in the lab differ in which pins are free and how they are cl
 | Built-in button | PA0 (blue, active high) | PC13 (active **low**) |
 | **Pins to avoid** | PA13, PA14 (SWD) | PA2, PA3 (ST-LINK VCP), PA13, PA14 (SWD), PC14, PC15 (LSE) |
 
+For every on-board connection, the free pins and the pins each experiment uses, see [Board Pinout](/setup/pinout).
+
 ::: danger Never use PA13 / PA14
 These are the SWDIO and SWCLK debug pins. If you assign them to something else and flash the board, the debugger can no longer connect. Recovering needs a "connect under reset" flash.
 :::
