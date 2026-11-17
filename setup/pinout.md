@@ -64,6 +64,10 @@ They are the SWD debug pins on both boards. Assign them to anything else and the
 | | LDR divider | PA6 (ADC1_IN6) | PA6 (D12) |
 | [4. Timers](/experiments/exp4-timers) | LED, TIM4_CH4 | PD15 (on-board blue LED) | PB9 (D14) |
 | | Potentiometer, LCD | PA4, PB6 / PB7 | PA4, PB6 / PB7 |
+| [5. DC Motor and PWM](/experiments/exp5-dc-motor-pwm) | L298 ENA, TIM4_CH4 | PD15 (blue LED glows with the duty) | PB9 (D14) |
+| | L298 IN1 / IN2 | PB4 / PB5 | PB4 / PB5 (D5 / D4) |
+| | User button | PA0 (on-board) | PC13 (on-board) |
+| | Potentiometer, LCD | PA4, PB6 / PB7 | PA4, PB6 / PB7 |
 
 ## F407 Discovery
 
@@ -136,5 +140,5 @@ The Arduino-style header is the quickest way to find a pin on the Nucleo. Every 
 | D7 | PA8 | | |
 
 ::: warning D14 / D15 are not I2C here
-On many Arduino shields D14/D15 are SDA/SCL. On this board they are PB9/PB8, and the lab puts the TIM4_CH4 LED on PB9. Keep the LCD on **PB6 / PB7**, as in [Experiment 4](/experiments/exp4-timers).
+On many Arduino shields D14/D15 are SDA/SCL. On this board they are PB9/PB8, and Experiments 4 and 5 put TIM4_CH4 on PB9. Keep the LCD on **PB6 / PB7**, as in [Experiment 4](/experiments/exp4-timers).
 :::

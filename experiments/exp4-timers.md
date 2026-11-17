@@ -33,7 +33,7 @@ You reuse the LCD wiring and library from [Experiment 2](./exp2-lcd-keypad), and
 
 A **timer**, or counter, is a piece of hardware inside the microcontroller. Think of it as a digital stopwatch that keeps time or counts events. An 8-bit timer, for example, counts from 0 to 255 and then rolls over to 0, although that maximum is programmable.
 
-Timers generate precise timing events, schedule tasks and measure time intervals. They control external devices, generate PWM signals ([Experiment 5](/experiments/)) and keep real-time tasks on schedule.
+Timers generate precise timing events, schedule tasks and measure time intervals. They control external devices, generate PWM signals ([Experiment 5](./exp5-dc-motor-pwm)) and keep real-time tasks on schedule.
 
 ### How a timer works
 
