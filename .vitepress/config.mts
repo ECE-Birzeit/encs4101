@@ -141,6 +141,10 @@ export default withPwa(defineConfig({
       // Link-preview images are for chat apps and search engines, not for reading offline
       globIgnores: ['og/**'],
       maximumFileSizeToCacheInBytes: 5000000,
+      // Links shared from Instagram, WhatsApp, QR tools etc. carry their own query strings;
+      // the site uses none, so look every page up in the cache without them. Otherwise an
+      // offline visit to "/?igsh=..." misses the cache and lands on the 404 page.
+      ignoreURLParametersMatching: [/.*/],
     },
     experimental: {
       includeAllowlist: true,
